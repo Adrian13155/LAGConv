@@ -1,1 +1,1 @@
-# LAGConv-This is a project page for the work of LAGConv
+# LAGConv用来做WV2对比实验

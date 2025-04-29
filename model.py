@@ -119,7 +119,7 @@ class LACNET(nn.Module):
 
 
     def forward(self,pan,lms):
-        x=torch.cat([pan,lms],1)
+        x=torch.cat([pan,lms],dim=1)
         x=self.head_conv(x)
         x = self.RB1(x)
         x = self.RB2(x)
@@ -131,8 +131,13 @@ class LACNET(nn.Module):
         return sr
 
 if __name__ == '__main__':
-    from torchsummary import summary
-    N=LACNET()
-    summary(N,[(1,64,64),(8,64,64)],device='cpu')
+    torch.cuda.set_device(2)
+    model=LACNET().cuda()
+    lms = torch.rand(1, 8, 128, 128).cuda()
+    pan = torch.rand(1, 1, 128, 128).cuda()
+    output = model(pan, lms)
+
+    print("output: ",output.shape)
+    print(sum(p.numel() for p in model.parameters() )/1e6, "M") 
 
 
